@@ -29,6 +29,13 @@ namespace Deskflow.Api.Controllers
             return Ok(chamado);
         }
 
+        [HttpPost("{id}/interacoes")]
+        public async Task<IActionResult> AdicionarInteracaoAsync([FromRoute] int id, [FromBody] Interacao interacao)
+        {
+            var criada = await _chamadoService.AdicionarInteracaoAsync(id, interacao.Autor, interacao.Mensagem);
+            return Created($"/api/chamados/{id}/interacoes/{criada.Id}", criada);
+        }
+
         [HttpPost("{id}/encerrar")]
         public async Task<IActionResult> EncerrarAsync([FromRoute] int id, [FromBody] Chamado chamado)
         {

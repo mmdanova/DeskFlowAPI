@@ -44,6 +44,14 @@ namespace Deskflow.Api.Services
             return chamado;
         }
 
+        public async Task<Interacao> AdicionarInteracaoAsync(int id, string? autor, string? mensagem)
+        {
+            var chamado = await ObterOuFalharAsync(id);
+            var interacao = chamado.AdicionarInteracao(autor, mensagem);
+            await _chamadoRepository.Atualizar(chamado);
+            return interacao;
+        }
+
         private async Task<Chamado> ObterOuFalharAsync(int id)
         {
             return await _chamadoRepository.ObterPorIdAsync(id)

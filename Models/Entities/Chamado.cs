@@ -45,6 +45,24 @@ namespace Deskflow.Api.Models.Entities
             Status = StatusChamado.EmAndamento;
         }
 
+        public Interacao AdicionarInteracao(string? autor, string? mensagem)
+        {
+            if (Status == StatusChamado.Fechado)
+                throw new RegraNegocioException("Não é possível adicionar interações a um chamado fechado.");
+
+            if (string.IsNullOrWhiteSpace(autor) || string.IsNullOrWhiteSpace(mensagem))
+                throw new RegraNegocioException("Autor e Mensagem são obrigatórios.");
+
+            var interacao = new Interacao
+            {
+                Autor = autor,
+                Mensagem = mensagem,
+                DataRegistro = DateTime.Now
+            };
+            Interacoes.Add(interacao);
+            return interacao;
+        }
+
         public void Encerrar(string? solucao)
         {
             if (Status == StatusChamado.Fechado)
