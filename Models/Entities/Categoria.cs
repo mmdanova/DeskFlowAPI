@@ -1,10 +1,24 @@
-namespace Deskflow.Api.Models.Entities
-{
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Deskflow.Api.Models.Entities
+{  
     public class Categoria
     {
-        public int Id { get; set; }
-        public string Nome { get; set; } = string.Empty;
-        public List<Chamado> Chamados { get; set; } = new();
+        [Key]
+        [Column("codCategoria")]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        
+        [Required]
+        [MaxLength(150)]
+        [Column("nomeCategoria", TypeName ="varchar(150)") ]
+        public string Nome { get; set; }
+
+        public void Update (Categoria categoria)
+        {
+            Nome = categoria.Nome;
+        }
+    
     }
 }

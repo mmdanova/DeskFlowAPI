@@ -14,7 +14,7 @@ namespace Deskflow.Api.Models.Entities
         public DateTime DataAbertura { get; set; }
         public DateTime? DataFechamento { get; set; }
         public string? Solucao { get; set; }
-        public int CategoriaId { get; set; }
+        public string CategoriaId { get; set; }
         public Categoria? Categoria { get; set; }
         public List<Interacao> Interacoes { get; set; } = new();
     }

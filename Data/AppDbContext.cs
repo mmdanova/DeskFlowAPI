@@ -9,20 +9,28 @@ namespace Deskflow.Api.Data.Entities
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Categoria> Categorias => Set<Categoria>();
-        public DbSet<Chamado> Chamados => Set<Chamado>();
-        public DbSet<Interacao> Interacoes => Set<Interacao>();
+        //public DbSet<Chamado> Chamados => Set<Chamado>();
+        //public DbSet<Interacao> Interacoes => Set<Interacao>();
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
-            mb.Entity<Categoria>(e =>
+            base.OnModelCreating(mb);
+
+            mb.Entity<Categoria>(categoria =>
             {
-                e.Property(c => c.Nome).IsRequired().HasMaxLength(100);
-                e.HasMany(c => c.Chamados).WithOne(ch => ch.Categoria)
-                 .HasForeignKey(ch => ch.CategoriaId)
-                 .OnDelete(DeleteBehavior.Restrict);
+                categoria.ToTable("Tb_categorias");
+
+                categoria.HasKey( c => c.Id);
+
+                categoria.Property(c => c.Id)
+                       .HasColumnName("codCategoria")
+                       .HasColumnType("varchar(150)");
+
+                categoria.Property(c => c.Nome)
+                        .HasColumnName("nomeCategoria").IsRequired();
             });
 
-            mb.Entity<Chamado>(e =>
+           /* mb.Entity<Chamado>(e =>
             {
                 e.Property(c => c.Titulo).IsRequired().HasMaxLength(150);
                 e.Property(c => c.Descricao).IsRequired();
@@ -39,6 +47,7 @@ namespace Deskflow.Api.Data.Entities
                 e.Property(i => i.Autor).IsRequired().HasMaxLength(100);
                 e.Property(i => i.Mensagem).IsRequired();
             });
+            */
         }
     }
 
