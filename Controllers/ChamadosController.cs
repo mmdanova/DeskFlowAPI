@@ -22,6 +22,13 @@ namespace Deskflow.Api.Controllers
             return Created($"/api/chamados/{criado.Id}", criado);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ObterDetalhesAsync([FromRoute] int id)
+        {
+            var chamado = await _chamadoService.ObterDetalhesAsync(id);
+            return Ok(chamado);
+        }
+
         [HttpPost("{id}/iniciar")]
         public async Task<IActionResult> IniciarAsync([FromRoute] int id)
         {

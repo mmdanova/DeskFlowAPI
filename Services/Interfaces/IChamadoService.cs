@@ -5,6 +5,7 @@ namespace Deskflow.Api.Services.Interfaces
     public interface IChamadoService
     {
         Task<Chamado> AbrirAsync(Chamado chamado);
+        Task<Chamado> ObterDetalhesAsync(int id);
         Task<Chamado> IniciarAsync(int id);
         Task<Chamado> EncerrarAsync(int id, string? solucao);
         Task<Interacao> AdicionarInteracaoAsync(int id, string? autor, string? mensagem);

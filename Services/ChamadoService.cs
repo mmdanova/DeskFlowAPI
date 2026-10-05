@@ -28,6 +28,12 @@ namespace Deskflow.Api.Services
             return chamado;
         }
 
+        public async Task<Chamado> ObterDetalhesAsync(int id)
+        {
+            return await _chamadoRepository.ObterDetalhadoPorIdAsync(id)
+                ?? throw new NaoEncontradoException($"Chamado Id : {id} não encontrado");
+        }
+
         public async Task<Chamado> IniciarAsync(int id)
         {
             var chamado = await ObterOuFalharAsync(id);
