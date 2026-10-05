@@ -25,6 +25,9 @@ namespace Deskflow.Api.Models.Entities
                 || string.IsNullOrWhiteSpace(SolicitanteNome) || string.IsNullOrWhiteSpace(CategoriaId))
                 throw new RegraNegocioException("Titulo, Descricao, SolicitanteNome e CategoriaId são obrigatórios.");
 
+            if (Titulo.Length > 150 || SolicitanteNome.Length > 100 || CategoriaId.Length > 150)
+                throw new RegraNegocioException("Tamanho máximo excedido: Titulo (150), SolicitanteNome (100) e CategoriaId (150).");
+
             if (!Enum.IsDefined(Prioridade))
                 throw new RegraNegocioException("Prioridade inválida. Use Baixa, Media ou Alta.");
 
@@ -52,6 +55,9 @@ namespace Deskflow.Api.Models.Entities
 
             if (string.IsNullOrWhiteSpace(autor) || string.IsNullOrWhiteSpace(mensagem))
                 throw new RegraNegocioException("Autor e Mensagem são obrigatórios.");
+
+            if (autor.Length > 100)
+                throw new RegraNegocioException("Autor deve ter no máximo 100 caracteres.");
 
             var interacao = new Interacao
             {
