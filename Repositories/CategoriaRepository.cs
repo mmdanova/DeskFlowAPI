@@ -38,6 +38,11 @@ namespace Deskflow.Api.Repositories
             return await _context.Categorias.FindAsync(id); 
         }
 
+        public async Task<bool> PossuiChamadosAsync(string id)
+        {
+            return await _context.Chamados.AnyAsync(c => c.CategoriaId == id);
+        }
+
         public async Task<List<Categoria>> ObterTodosAsync()
         {
             return await _context.Categorias.ToListAsync();

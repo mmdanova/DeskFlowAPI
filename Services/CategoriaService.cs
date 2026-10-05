@@ -1,3 +1,4 @@
+using Deskflow.Api.Exceptions;
 using Deskflow.Api.Services.Interfaces;
 using Deskflow.Api.Models.Entities;
 using Deskflow.Api.Repositories.Interfaces;
@@ -19,6 +20,11 @@ namespace Deskflow.Api.Services
 
             if(categoria != null)
             {
+                if (await _categoriaRepository.PossuiChamadosAsync(id))
+                {
+                    throw new RegraNegocioException("Não é possível excluir a categoria pois ela possui chamados associados.");
+                }
+
                 await _categoriaRepository.Deletar(categoria);
             }  
         }
