@@ -16,17 +16,15 @@ namespace Deskflow.Api.Services
 
         public async Task Deletar (string id)
         {
-            Categoria  categoria = await _categoriaRepository.ObterPorIdAsync(id);
+            Categoria categoria = await _categoriaRepository.ObterPorIdAsync(id)
+                ?? throw new NaoEncontradoException($"Categoria Id : {id} não encontrada");
 
-            if(categoria != null)
+            if (await _categoriaRepository.PossuiChamadosAsync(id))
             {
-                if (await _categoriaRepository.PossuiChamadosAsync(id))
-                {
-                    throw new RegraNegocioException("Não é possível excluir a categoria pois ela possui chamados associados.");
-                }
+                throw new RegraNegocioException("Não é possível excluir a categoria pois ela possui chamados associados.");
+            }
 
-                await _categoriaRepository.Deletar(categoria);
-            }  
+            await _categoriaRepository.Deletar(categoria);
         }
 
         public async Task InserirAsync(Categoria categoria)
@@ -37,7 +35,8 @@ namespace Deskflow.Api.Services
 
         public async Task<Categoria> ObterPorIdAsync(string id)
         {
-            return await _categoriaRepository.ObterPorIdAsync(id);
+            return await _categoriaRepository.ObterPorIdAsync(id)
+                ?? throw new NaoEncontradoException($"Categoria Id : {id} não encontrada");
         }
 
         public async Task<List<Categoria>> ObterTodosAsync() 
@@ -49,8 +48,7 @@ namespace Deskflow.Api.Services
             
             if(categoriaDb == null)
             {
-                //throw new NotFoundException($"categoria Id : {id} não encontrada"); 
-                throw new($"categoria Id : {id} não encontrada"); 
+                throw new NaoEncontradoException($"Categoria Id : {id} não encontrada");
             }
 
             categoriaDb.Update(categoriaAtualizada);

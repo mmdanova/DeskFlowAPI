@@ -7,7 +7,7 @@ using Deskflow.Api.Models.Entities;
 namespace Deskflow.Api.Controllers
 {
     [ApiController]
-    [Route("categorias")]
+    [Route("api/categorias")]
     public class CategoriasController: ControllerBase
     {
 
@@ -23,7 +23,7 @@ namespace Deskflow.Api.Controllers
         public async Task<IActionResult> CriarAsync([FromBody] Categoria categoria)
         {
             await _categoriasService.InserirAsync(categoria);
-            return Created("/categorias",categoria);
+            return Created($"/api/categorias/{categoria.Id}", categoria);
         }
 
         [HttpGet]
@@ -50,14 +50,14 @@ namespace Deskflow.Api.Controllers
         public async Task<IActionResult> DeleteAscync([FromRoute] string id)
         {   
             await _categoriasService.Deletar(id);
-            return Ok();
+            return NoContent();
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync([FromRoute]string id, [FromBody]Categoria categoriaAtualizada)
         {
             await _categoriasService.Update(categoriaAtualizada, id);
-            return Ok();
+            return NoContent();
         }
     }
 }

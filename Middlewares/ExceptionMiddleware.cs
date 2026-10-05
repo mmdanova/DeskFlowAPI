@@ -6,9 +6,12 @@ namespace Deskflow.Api.Middlewares
     {
         private readonly RequestDelegate _next;
 
-        public ExceptionMiddleware(RequestDelegate next)
+        private readonly ILogger<ExceptionMiddleware> _logger;
+
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -24,6 +27,11 @@ namespace Deskflow.Api.Middlewares
             catch (RegraNegocioException ex)
             {
                 await Responder(context, StatusCodes.Status400BadRequest, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro inesperado ao processar a requisição.");
+                await Responder(context, StatusCodes.Status500InternalServerError, "Erro interno do servidor.");
             }
         }
 
