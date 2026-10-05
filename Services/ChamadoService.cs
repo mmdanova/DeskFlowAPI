@@ -1,5 +1,6 @@
 using Deskflow.Api.Exceptions;
 using Deskflow.Api.Models.Entities;
+using Deskflow.Api.Models.Enums;
 using Deskflow.Api.Repositories.Interfaces;
 using Deskflow.Api.Services.Interfaces;
 
@@ -26,6 +27,11 @@ namespace Deskflow.Api.Services
 
             await _chamadoRepository.InserirAsync(chamado);
             return chamado;
+        }
+
+        public async Task<List<Chamado>> ListarAsync(StatusChamado? status, Prioridade? prioridade, string? categoriaId)
+        {
+            return await _chamadoRepository.ListarAsync(status, prioridade, categoriaId);
         }
 
         public async Task<Chamado> ObterDetalhesAsync(int id)

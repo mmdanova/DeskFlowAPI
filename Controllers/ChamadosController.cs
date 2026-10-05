@@ -1,4 +1,5 @@
 using Deskflow.Api.Models.Entities;
+using Deskflow.Api.Models.Enums;
 using Deskflow.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,14 @@ namespace Deskflow.Api.Controllers
         {
             var criado = await _chamadoService.AbrirAsync(chamado);
             return Created($"/api/chamados/{criado.Id}", criado);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ListarAsync([FromQuery] StatusChamado? status,
+            [FromQuery] Prioridade? prioridade, [FromQuery] string? categoriaId)
+        {
+            var chamados = await _chamadoService.ListarAsync(status, prioridade, categoriaId);
+            return Ok(chamados);
         }
 
         [HttpGet("{id}")]
