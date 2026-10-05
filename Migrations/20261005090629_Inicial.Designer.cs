@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeskFlow.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20261005081204_CriacaoChamado")]
-    partial class CriacaoChamado
+    [Migration("20261005090629_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,9 +27,12 @@ namespace DeskFlow.API.Migrations
 
             modelBuilder.Entity("Deskflow.Api.Models.Entities.Categoria", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(150)")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasColumnName("codCategoria");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -50,9 +53,8 @@ namespace DeskFlow.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CategoriaId")
-                        .IsRequired()
-                        .HasColumnType("varchar(150)");
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DataAbertura")
                         .HasColumnType("datetime2");

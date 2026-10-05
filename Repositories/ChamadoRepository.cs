@@ -34,7 +34,7 @@ namespace Deskflow.Api.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<List<Chamado>> ListarAsync(StatusChamado? status, Prioridade? prioridade, string? categoriaId)
+        public async Task<List<Chamado>> ListarAsync(StatusChamado? status, Prioridade? prioridade, int? categoriaId)
         {
             var query = _context.Chamados.AsNoTracking().Include(c => c.Categoria).AsQueryable();
 
@@ -42,8 +42,8 @@ namespace Deskflow.Api.Repositories
                 query = query.Where(c => c.Status == status.Value);
             if (prioridade.HasValue)
                 query = query.Where(c => c.Prioridade == prioridade.Value);
-            if (!string.IsNullOrWhiteSpace(categoriaId))
-                query = query.Where(c => c.CategoriaId == categoriaId);
+            if (categoriaId.HasValue)
+                query = query.Where(c => c.CategoriaId == categoriaId.Value);
 
             return await query.OrderByDescending(c => c.DataAbertura).ToListAsync();
         }

@@ -24,7 +24,7 @@ namespace Deskflow.Api.Data.Entities
 
                 categoria.Property(c => c.Id)
                        .HasColumnName("codCategoria")
-                       .HasColumnType("varchar(150)");
+                       .ValueGeneratedOnAdd();
 
                 categoria.Property(c => c.Nome)
                         .HasColumnName("nomeCategoria").IsRequired();
@@ -37,7 +37,6 @@ namespace Deskflow.Api.Data.Entities
                 e.Property(c => c.SolicitanteNome).IsRequired().HasMaxLength(100);
                 e.Property(c => c.Prioridade).HasConversion<string>().HasMaxLength(20);
                 e.Property(c => c.Status).HasConversion<string>().HasMaxLength(20);
-                e.Property(c => c.CategoriaId).IsRequired().HasColumnType("varchar(150)");
                 e.HasOne(c => c.Categoria).WithMany()
                  .HasForeignKey(c => c.CategoriaId)
                  .OnDelete(DeleteBehavior.Restrict);

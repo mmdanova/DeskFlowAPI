@@ -38,7 +38,7 @@ namespace Deskflow.Api.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> ObterPorIdAsync([FromRoute]string id)
+        public async Task<IActionResult> ObterPorIdAsync([FromRoute] int id)
         {
             //Categoria categoria = await _contexto.Categorias.FindAsync(id);
             Categoria categoria = await _categoriasService.ObterPorIdAsync(id);
@@ -47,14 +47,14 @@ namespace Deskflow.Api.Controllers
 
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAscync([FromRoute] string id)
+        public async Task<IActionResult> DeleteAscync([FromRoute] int id)
         {   
             await _categoriasService.Deletar(id);
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute]string id, [FromBody]Categoria categoriaAtualizada)
+        public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody]Categoria categoriaAtualizada)
         {
             await _categoriasService.Update(categoriaAtualizada, id);
             return NoContent();

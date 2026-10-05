@@ -15,18 +15,18 @@ namespace Deskflow.Api.Models.Entities
         public DateTime DataAbertura { get; set; }
         public DateTime? DataFechamento { get; set; }
         public string? Solucao { get; set; }
-        public string CategoriaId { get; set; } = string.Empty;
+        public int CategoriaId { get; set; }
         public Categoria? Categoria { get; private set; }
         public List<Interacao> Interacoes { get; private set; } = new();
 
         public void Abrir()
         {
             if (string.IsNullOrWhiteSpace(Titulo) || string.IsNullOrWhiteSpace(Descricao)
-                || string.IsNullOrWhiteSpace(SolicitanteNome) || string.IsNullOrWhiteSpace(CategoriaId))
+                || string.IsNullOrWhiteSpace(SolicitanteNome) || CategoriaId <= 0)
                 throw new RegraNegocioException("Titulo, Descricao, SolicitanteNome e CategoriaId são obrigatórios.");
 
-            if (Titulo.Length > 150 || SolicitanteNome.Length > 100 || CategoriaId.Length > 150)
-                throw new RegraNegocioException("Tamanho máximo excedido: Titulo (150), SolicitanteNome (100) e CategoriaId (150).");
+            if (Titulo.Length > 150 || SolicitanteNome.Length > 100)
+                throw new RegraNegocioException("Tamanho máximo excedido: Titulo (150) e SolicitanteNome (100).");
 
             if (!Enum.IsDefined(Prioridade))
                 throw new RegraNegocioException("Prioridade inválida. Use Baixa, Media ou Alta.");

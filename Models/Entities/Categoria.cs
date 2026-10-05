@@ -8,7 +8,7 @@ namespace Deskflow.Api.Models.Entities
     {
         [Key]
         [Column("codCategoria")]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public int Id { get; set; }
         
         [Required]
         [MaxLength(150)]

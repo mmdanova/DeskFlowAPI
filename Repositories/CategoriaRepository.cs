@@ -33,12 +33,12 @@ namespace Deskflow.Api.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Categoria> ObterPorIdAsync(string id)
+        public async Task<Categoria> ObterPorIdAsync(int id)
         {
             return await _context.Categorias.FindAsync(id); 
         }
 
-        public async Task<bool> PossuiChamadosAsync(string id)
+        public async Task<bool> PossuiChamadosAsync(int id)
         {
             return await _context.Chamados.AnyAsync(c => c.CategoriaId == id);
         }

@@ -14,7 +14,7 @@ namespace Deskflow.Api.Services
             _categoriaRepository = categoriaRepository;
         }
 
-        public async Task Deletar (string id)
+        public async Task Deletar (int id)
         {
             Categoria categoria = await _categoriaRepository.ObterPorIdAsync(id)
                 ?? throw new NaoEncontradoException($"Categoria Id : {id} não encontrada");
@@ -29,11 +29,12 @@ namespace Deskflow.Api.Services
 
         public async Task InserirAsync(Categoria categoria)
         {
+            categoria.Id = 0; // Id gerado pelo banco (identity)
             await _categoriaRepository.InserirAsync(categoria);
         }
 
 
-        public async Task<Categoria> ObterPorIdAsync(string id)
+        public async Task<Categoria> ObterPorIdAsync(int id)
         {
             return await _categoriaRepository.ObterPorIdAsync(id)
                 ?? throw new NaoEncontradoException($"Categoria Id : {id} não encontrada");
@@ -42,7 +43,7 @@ namespace Deskflow.Api.Services
         public async Task<List<Categoria>> ObterTodosAsync() 
                 => await _categoriaRepository.ObterTodosAsync();
 
-        public async Task Update(Categoria categoriaAtualizada, string id)
+        public async Task Update(Categoria categoriaAtualizada, int id)
         {
             var categoriaDb  = await _categoriaRepository.ObterPorIdAsync(id);
             

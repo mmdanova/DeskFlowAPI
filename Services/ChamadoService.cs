@@ -29,7 +29,7 @@ namespace Deskflow.Api.Services
             return chamado;
         }
 
-        public async Task<List<Chamado>> ListarAsync(StatusChamado? status, Prioridade? prioridade, string? categoriaId)
+        public async Task<List<Chamado>> ListarAsync(StatusChamado? status, Prioridade? prioridade, int? categoriaId)
         {
             return await _chamadoRepository.ListarAsync(status, prioridade, categoriaId);
         }

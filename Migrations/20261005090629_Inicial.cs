@@ -6,11 +6,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DeskFlow.API.Migrations
 {
     /// <inheritdoc />
-    public partial class CriacaoChamado : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Tb_categorias",
+                columns: table => new
+                {
+                    codCategoria = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    nomeCategoria = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tb_categorias", x => x.codCategoria);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Chamados",
                 columns: table => new
@@ -25,7 +38,7 @@ namespace DeskFlow.API.Migrations
                     DataAbertura = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataFechamento = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Solucao = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoriaId = table.Column<string>(type: "varchar(150)", nullable: false)
+                    CategoriaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,6 +92,9 @@ namespace DeskFlow.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Chamados");
+
+            migrationBuilder.DropTable(
+                name: "Tb_categorias");
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Deskflow.Api.Controllers
 
         [HttpGet]
         public async Task<IActionResult> ListarAsync([FromQuery] StatusChamado? status,
-            [FromQuery] Prioridade? prioridade, [FromQuery] string? categoriaId)
+            [FromQuery] Prioridade? prioridade, [FromQuery] int? categoriaId)
         {
             var chamados = await _chamadoService.ListarAsync(status, prioridade, categoriaId);
             return Ok(chamados);
