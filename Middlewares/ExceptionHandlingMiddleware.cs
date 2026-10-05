@@ -2,13 +2,13 @@ using Deskflow.Api.Exceptions;
 
 namespace Deskflow.Api.Middlewares
 {
-    public class ExceptionMiddleware
+    public class ExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;
 
-        private readonly ILogger<ExceptionMiddleware> _logger;
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
         {
             _next = next;
             _logger = logger;
@@ -37,6 +37,10 @@ namespace Deskflow.Api.Middlewares
 
         private static Task Responder(HttpContext context, int statusCode, string mensagem)
         {
+            if (context.Response.HasStarted)
+                return Task.CompletedTask;
+
+            context.Response.Clear();
             context.Response.StatusCode = statusCode;
             return context.Response.WriteAsJsonAsync(new { erro = mensagem });
         }
