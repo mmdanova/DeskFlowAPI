@@ -1,0 +1,11 @@
+using Deskflow.Api.Models.Entities;
+
+namespace Deskflow.Api.Services.Interfaces
+{
+    public interface IChamadoService
+    {
+        Task<Chamado> AbrirAsync(Chamado chamado);
+        Task<Chamado> IniciarAsync(int id);
+        Task<Chamado> EncerrarAsync(int id, string? solucao);
+    }
+}

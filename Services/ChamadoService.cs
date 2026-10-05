@@ -1,0 +1,53 @@
+using Deskflow.Api.Exceptions;
+using Deskflow.Api.Models.Entities;
+using Deskflow.Api.Repositories.Interfaces;
+using Deskflow.Api.Services.Interfaces;
+
+namespace Deskflow.Api.Services
+{
+    public class ChamadoService : IChamadoService
+    {
+        private IChamadoRepository _chamadoRepository;
+        private ICategoriaRepository _categoriaRepository;
+
+        public ChamadoService(IChamadoRepository chamadoRepository, ICategoriaRepository categoriaRepository)
+        {
+            _chamadoRepository = chamadoRepository;
+            _categoriaRepository = categoriaRepository;
+        }
+
+        public async Task<Chamado> AbrirAsync(Chamado chamado)
+        {
+            chamado.Abrir();
+
+            var categoria = await _categoriaRepository.ObterPorIdAsync(chamado.CategoriaId);
+            if (categoria == null)
+                throw new RegraNegocioException($"Categoria Id : {chamado.CategoriaId} não encontrada");
+
+            await _chamadoRepository.InserirAsync(chamado);
+            return chamado;
+        }
+
+        public async Task<Chamado> IniciarAsync(int id)
+        {
+            var chamado = await ObterOuFalharAsync(id);
+            chamado.Iniciar();
+            await _chamadoRepository.Atualizar(chamado);
+            return chamado;
+        }
+
+        public async Task<Chamado> EncerrarAsync(int id, string? solucao)
+        {
+            var chamado = await ObterOuFalharAsync(id);
+            chamado.Encerrar(solucao);
+            await _chamadoRepository.Atualizar(chamado);
+            return chamado;
+        }
+
+        private async Task<Chamado> ObterOuFalharAsync(int id)
+        {
+            return await _chamadoRepository.ObterPorIdAsync(id)
+                ?? throw new NaoEncontradoException($"Chamado Id : {id} não encontrado");
+        }
+    }
+}

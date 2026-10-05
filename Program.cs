@@ -13,7 +13,11 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 
-builder.Services.AddControllers();
+builder.Services.AddScoped<IChamadoService, ChamadoService>();
+builder.Services.AddScoped<IChamadoRepository, ChamadoRepository>();
+
+builder.Services.AddControllers()
+    .AddJsonOptions(o => o.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -23,6 +27,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<Deskflow.Api.Middlewares.ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 app.MapControllers();

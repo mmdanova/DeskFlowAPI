@@ -9,8 +9,8 @@ namespace Deskflow.Api.Data.Entities
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Categoria> Categorias => Set<Categoria>();
-        //public DbSet<Chamado> Chamados => Set<Chamado>();
-        //public DbSet<Interacao> Interacoes => Set<Interacao>();
+        public DbSet<Chamado> Chamados => Set<Chamado>();
+        public DbSet<Interacao> Interacoes => Set<Interacao>();
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
@@ -30,13 +30,17 @@ namespace Deskflow.Api.Data.Entities
                         .HasColumnName("nomeCategoria").IsRequired();
             });
 
-           /* mb.Entity<Chamado>(e =>
+            mb.Entity<Chamado>(e =>
             {
                 e.Property(c => c.Titulo).IsRequired().HasMaxLength(150);
                 e.Property(c => c.Descricao).IsRequired();
                 e.Property(c => c.SolicitanteNome).IsRequired().HasMaxLength(100);
                 e.Property(c => c.Prioridade).HasConversion<string>().HasMaxLength(20);
                 e.Property(c => c.Status).HasConversion<string>().HasMaxLength(20);
+                e.Property(c => c.CategoriaId).IsRequired().HasColumnType("varchar(150)");
+                e.HasOne(c => c.Categoria).WithMany()
+                 .HasForeignKey(c => c.CategoriaId)
+                 .OnDelete(DeleteBehavior.Restrict);
                 e.HasMany(c => c.Interacoes).WithOne(i => i.Chamado)
                  .HasForeignKey(i => i.ChamadoId)
                  .OnDelete(DeleteBehavior.Cascade);
@@ -47,7 +51,6 @@ namespace Deskflow.Api.Data.Entities
                 e.Property(i => i.Autor).IsRequired().HasMaxLength(100);
                 e.Property(i => i.Mensagem).IsRequired();
             });
-            */
         }
     }
 
