@@ -50,6 +50,8 @@ namespace Deskflow.Api.Data.Entities
                 e.Property(i => i.Autor).IsRequired().HasMaxLength(100);
                 e.Property(i => i.Mensagem).IsRequired();
             });
+
+            SeedData.Aplicar(mb);
         }
     }
 
