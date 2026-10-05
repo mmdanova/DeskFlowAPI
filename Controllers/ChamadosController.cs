@@ -38,7 +38,7 @@ namespace Deskflow.Api.Controllers
             return Ok(chamado);
         }
 
-        [HttpPost("{id}/iniciar")]
+        [HttpPatch("{id}/iniciar")]
         public async Task<IActionResult> IniciarAsync([FromRoute] int id)
         {
             var chamado = await _chamadoService.IniciarAsync(id);
@@ -52,7 +52,7 @@ namespace Deskflow.Api.Controllers
             return Created($"/api/chamados/{id}/interacoes/{criada.Id}", criada);
         }
 
-        [HttpPost("{id}/encerrar")]
+        [HttpPatch("{id}/encerrar")]
         public async Task<IActionResult> EncerrarAsync([FromRoute] int id, [FromBody] Chamado chamado)
         {
             var encerrado = await _chamadoService.EncerrarAsync(id, chamado.Solucao);

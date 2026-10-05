@@ -111,8 +111,8 @@ Ao executar `dotnet ef database update`, o banco é populado com os seguintes re
 | GET | `/api/chamados?status=&prioridade=&categoriaId=` | Lista chamados com filtros opcionais e combináveis |
 | GET | `/api/chamados/{id}` | Detalhes do chamado com categoria e interações |
 | POST | `/api/chamados` | Abre um novo chamado |
-| POST | `/api/chamados/{id}/iniciar` | Inicia o atendimento (Aberto → EmAndamento) |
-| POST | `/api/chamados/{id}/encerrar` | Encerra o chamado (exige solução) |
+| PATCH | `/api/chamados/{id}/iniciar` | Inicia o atendimento (Aberto → EmAndamento) |
+| PATCH | `/api/chamados/{id}/encerrar` | Encerra o chamado (exige solução) |
 | POST | `/api/chamados/{id}/interacoes` | Adiciona uma interação (não permitido em chamado Fechado) |
 
 ### Exemplos de corpo das requisições
@@ -135,7 +135,7 @@ Ao executar `dotnet ef database update`, o banco é populado com os seguintes re
 }
 ```
 
-**POST /api/chamados/{id}/encerrar**
+**PATCH /api/chamados/{id}/encerrar**
 
 ```json
 { "solucao": "Driver reinstalado e impressora reconfigurada." }
