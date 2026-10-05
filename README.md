@@ -174,4 +174,4 @@ Todos os erros retornam um JSON padronizado, sem stack trace:
 
 ## Vídeo de Apresentação
 
-[Clique aqui para assistir ao vídeo de demonstração do projeto](https://link-do-seu-video.com)
+[Clique aqui para assistir ao vídeo de demonstração do projeto](https://youtu.be/5DYkL1N-yzQ)
